@@ -70,9 +70,9 @@
 
 #有了下面的配置信息以后，Spark就可以把数据存储到Hadoop分布式文件系统HDFS中，也可以从HDFS中读取数据。如果没有配置上面信息，Spark就只能读写本地数据，无法读写HDFS数据。
 #export SPARK_DIST_CLASSPATH=$(/usr/local/hadoop/bin/hadoop classpath)
-export SPARK_DIST_CLASSPATH=$(/usr/local/hadoop/bin/hadoop classpath):$(/usr/local/hbase2.1.3/bin/hbase classpath):/usr/local/spark2.4.0/jars/hbase/*
+export SPARK_DIST_CLASSPATH=$(/usr/local/hadoop/bin/hadoop classpath):$(/usr/local/hbase/bin/hbase classpath):/usr/local/spark/jars/hbase/*
 
-export SCALA_HOME=/usr/local/scala2.11.8
+export SCALA_HOME=/usr/local/scala
 export JAVA_HOME=/usr/local/jdk1.8
 export HADOOP_HOME=/usr/local/hadoop
 export HADOOP_CONF_DIR=$HADOOP_HOME/etc/hadoop
@@ -81,5 +81,5 @@ export PYSPARK_PYTHON=python36
 export PATH=$HADOOP_HOME/bin:$SPARK_HOME/bin:$PATH
 
 SPARK_MASTER_IP=master
-SPARK_LOCAL_DIRS=/usr/local/spark2.4.0
+SPARK_LOCAL_DIRS=/usr/local/spark
 SPARK_DRIVER_MEMORY=1G
