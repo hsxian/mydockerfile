@@ -15,7 +15,7 @@
 3. [scala-2.11.12.tgz](https://www.scala-lang.org/download/)
 4. [spark-2.4.0-bin-hadoop2.7](https://spark.apache.org/downloads.html)
 5. [zookeeper-3.4.13.tar.gz](https://zookeeper.apache.org/releases.html)
-6. [hbase-2.1.3-bin.tar.gz](https://hbase.apache.org/downloads.html)
+6. [hbase-2.1.3-bin.tar.gz](https://hbase.apache.org/downloads.html)(pyspark Write hbase only hbase version 1.2.8)
 7. [spark-examples_2.11-1.6.0-typesafe-001.jar](https://jar-download.com/?search_box=spark-examples)
 
 以上版本如需升级，请注意各个组件之间的依赖关系。
@@ -46,13 +46,11 @@ docker run --privileged -d -P  --name slave02 -h slave02 --add-host master:172.2
 
 ### 4.启动容器终端配置 ssh 登录
 
-#### 可以在容器内执行脚本 expect /usr/local/bash/cp-ssh-key.sh 取代以下 ssh 步骤
-
 ```bash
 #切换到spark用户
 su - spark
 #生成spark账号的key，执行后会有多个输入提示，不用输入任何内容，全部直接回车即可
-ssh-keygen
+# ssh-keygen # dockerfile 文件中已经生成
 #拷贝到其他节点
 ssh-copy-id -i /home/spark/.ssh/id_rsa -p 22 spark@master
 ssh-copy-id -i /home/spark/.ssh/id_rsa -p 22 spark@slave01
@@ -79,22 +77,22 @@ ssh slave01
 #### 5.1.在 master 节点创建标识为 1 的 myid
 
 ```bash
-mkdir -p /usr/local/zookeeper3.4.13/data
-echo "1" > /usr/local/zookeeper3.4.13/data/myid
+mkdir -p /usr/local/zookeeper/data
+echo "1" > /usr/local/zookeeper/data/myid
 ```
 
 #### 5.2.在 slave01 节点创建标识为 2 的 myid
 
 ```bash
-mkdir -p /usr/local/zookeeper3.4.13/data
-echo "2" > /usr/local/zookeeper3.4.13/data/myid
+mkdir -p /usr/local/zookeeper/data
+echo "2" > /usr/local/zookeeper/data/myid
 ```
 
 #### 5.3.在 slave02 节点创建标识为 3 的 myid
 
 ```bash
-mkdir -p /usr/local/zookeeper3.4.13/data
-echo "3" > /usr/local/zookeeper3.4.13/data/myid
+mkdir -p /usr/local/zookeeper/data
+echo "3" > /usr/local/zookeeper/data/myid
 ```
 
 ### 6.启动集群
@@ -102,7 +100,8 @@ echo "3" > /usr/local/zookeeper3.4.13/data/myid
 #### 6.1.每个容器下都要启动 zookpeer
 
 ```bash
-/usr/local/zookeeper3.4.13/bin/zkServer.sh  start
+cd /usr/local/zookeeper/bin
+./zkServer.sh  start
 ```
 
 #### 6.2.在 master 上启动 HDFS,Yarn,HBase 集群
@@ -113,9 +112,9 @@ echo "3" > /usr/local/zookeeper3.4.13/data/myid
 #启动yarn
 /usr/local/hadoop/sbin/start-yarn.sh
 #启动hbase
-/usr/local/hbase2.1.3/bin/start-hbase.sh
+/usr/local/hbase/bin/start-hbase.sh
 #启动spark
-/usr/local/spark2.4.0/sbin/start-all.sh
+/usr/local/spark/sbin/start-all.sh
 ```
 
 #### 6.3.在 slave 上启动 HDFS,Yarn 集群
