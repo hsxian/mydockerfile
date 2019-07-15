@@ -3,6 +3,8 @@
 #基于centos-ssh构建
 FROM centos-ssh
 
+RUN yum install -y which sudo
+
 #创建spark账号
 RUN useradd spark
 RUN echo "spark:123" | chpasswd
@@ -58,8 +60,8 @@ ENV PATH $ZOOKEEPERE_HOME/bin:$PATH
 
 #安装HBase
 #pyspark Write hbase only hbase version 1.2.8
-ADD hbase-2.1.3-bin.tar.gz /usr/local
-RUN mv /usr/local/hbase-2.1.3 /usr/local/hbase
+ADD hbase-1.2.8-bin.tar.gz /usr/local
+RUN mv /usr/local/hbase-1.2.8 /usr/local/hbase
 
 #配置Hbase环境变量
 ENV HBASE_HOME /usr/local/hbase
@@ -101,16 +103,12 @@ RUN /usr/local/bash/cp-hbase2spark.sh
 #在Spark 2.0版本上缺少相关把hbase的数据转换python可读取的jar包，需要我们另行下载。
 COPY spark-examples_2.11-1.6.0-typesafe-001.jar /usr/local/spark/jars/hbase/
 
-RUN cp $HBASE_HOME/lib/client-facing-thirdparty/htrace-core-3.1.0-incubating.jar $HBASE_HOME/lib/
-
 #更改hadoop和spark2.4.0目录所属用户
 RUN chown -R spark:spark /usr/local/hadoop
 RUN chown -R spark:spark /usr/local/spark
 RUN chown -R spark:spark /usr/local/hbase
 RUN chown -R spark:spark /usr/local/zookeeper
 
-
-RUN yum install -y which sudo
 
 WORKDIR /usr/local
 
