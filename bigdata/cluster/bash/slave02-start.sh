@@ -11,7 +11,11 @@ sleep 1m
 echo "........"
 
 #启动Hdfs
-/usr/local/hadoop/sbin/start-dfs.sh
+cd /usr/local/hadoop/sbin
+./start-dfs.sh
 
 #启动yarn
-/usr/local/hadoop/sbin/start-yarn.sh
+cd /usr/local/hadoop/sbin
+./start-yarn.sh
+
+cd /usr/local/

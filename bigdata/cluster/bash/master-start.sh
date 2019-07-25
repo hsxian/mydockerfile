@@ -10,12 +10,19 @@ sleep 1m
 echo "........"
 
 #启动Hdfs
-/usr/local/hadoop/sbin/start-dfs.sh
+cd /usr/local/hadoop/sbin
+./start-dfs.sh
 
 #启动hbase
-/usr/local/hbase/bin/start-hbase.sh
+cd /usr/local/hbase/bin
+./start-hbase.sh
 
 #启动yarn
-/usr/local/hadoop/sbin/start-yarn.sh
+cd /usr/local/hadoop/sbin
+./start-yarn.sh
+
 #启动spark
-/usr/local/spark/sbin/start-all.sh
+cd /usr/local/spark/sbin
+./start-all.sh
+
+cd /usr/local/
