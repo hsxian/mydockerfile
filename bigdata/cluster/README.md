@@ -37,7 +37,7 @@ docker network create -o "com.docker.network.bridge.name"="bd-cluster" --subnet 
 ### 3.启动三个 docker 节点
 
 ```bash
-docker run --privileged -d -P -p 50070:50070 -p 50075:50075 -p 8088:8088 -p 8091:8091 -p 16010:16010 -p 2181:2181 -p 9000:9000 -p 8900:8080 --name master -h master --ip 172.20.0.7 --add-host slave01:172.20.0.8 --add-host slave02:172.20.0.9 --net bd-cluster bigdata-cluster
+docker run --privileged -d -P -p 50070:50070 -p 50075:50075 -p 8088:8088 -p 8091:8091 -p 16010:16010 -p 2181:2181 -p 9000:9000 -p 8900:8080 -p 9090:9090 --name master -h master --ip 172.20.0.7 --add-host slave01:172.20.0.8 --add-host slave02:172.20.0.9 --net bd-cluster bigdata-cluster
 
 docker run --privileged -d -P  --name slave01 -h slave01 --add-host master:172.20.0.7 --ip 172.20.0.8 --add-host slave02:172.20.0.9 --net bd-cluster bigdata-cluster
 
