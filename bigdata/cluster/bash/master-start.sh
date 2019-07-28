@@ -16,6 +16,7 @@ cd /usr/local/hadoop/sbin
 #启动hbase
 cd /usr/local/hbase/bin
 ./start-hbase.sh
+nohup ./hbase thrift -p 9090 start &
 
 #启动yarn
 cd /usr/local/hadoop/sbin
