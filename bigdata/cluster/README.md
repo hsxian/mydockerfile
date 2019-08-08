@@ -15,7 +15,7 @@
 3. [scala-2.11.12.tgz](https://www.scala-lang.org/download/)
 4. [spark-2.4.0-bin-hadoop2.7](https://spark.apache.org/downloads.html)
 5. [zookeeper-3.4.13.tar.gz](https://zookeeper.apache.org/releases.html)
-6. [hbase-2.1.3-bin.tar.gz](https://hbase.apache.org/downloads.html)(pyspark Write hbase only hbase version 1.2.8)
+6. [hbase-1.2.8-bin.tar.gz](https://hbase.apache.org/downloads.html)(pyspark Write hbase only hbase version 1.2.8)
 7. [spark-examples_2.11-1.6.0-typesafe-001.jar](https://jar-download.com/?search_box=spark-examples)
 
 以上版本如需升级，请注意各个组件之间的依赖关系。
@@ -61,16 +61,20 @@ ssh slave01
 
 ### _！！！写在步骤 5 和步骤 6 之前_
 
-- _步骤 5 和 6 可以由在 root 下执行脚本取代，意即可以把脚本设在各自节点上开机启动_
+设置完 ssh 免密登录后
+
+- _步骤 5 和 6 可以由在 spark 用户下执行脚本取代，意即可以把脚本设在各自节点上开机启动_
   - _在 master 上执行/usr/local/bash/master-start.sh_
   - _在 slave01 上执行/usr/local/bash/slave01-start.sh_
   - _在 slave92 上执行/usr/local/bash/slave02-start.sh_
-- 亦可以链接脚本自动运行
+- 亦可以链接脚本自动运行(需要执行`exit`退出 spark 用户，spark 用户没有权限链接该文件)
 
   ```bash
   #连接到切换用户时执行。由于开机启动脚本会出错，故而没有采用开机运行的方式
   ln -s /usr/local/bash/judezookeep.sh /etc/profile.d/
   ```
+
+  接下来重新进入 spark 用户`su spark`,紧接着会有选择节点名称的提问。按照节点名输入字符串`master`、`slave01`或`slave02`即可。此过程会等待上几分钟完成集群的启动。
 
 ### 5.配置 zookpeer 标识文件
 
